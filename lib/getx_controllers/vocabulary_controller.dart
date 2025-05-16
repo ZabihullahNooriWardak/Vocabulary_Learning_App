@@ -18,13 +18,14 @@ class VocabularyController extends GetxController {
 
   getAllVocabularies() async {
     _allVocabularies = await _vocabularyRepository.allVocabularies();
-    print("this is the length :");
+    print("this is the length of All Vocabularies  :");
     print(_allVocabularies.length);
     update();
   }
 
   addVocabulary(VocabularyCompanion vc) async {
-    await _vocabularyRepository.addVocabulary(vc);
+    var result =  await _vocabularyRepository.addVocabulary(vc);
+    print("this is the result after Saving : $result");
     getAllVocabularies();
   }
 

@@ -8,7 +8,7 @@ class VocabularyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(VocabularyController());
-
+    print('this is in build method : ${controller.allVocabularies[0].word}');
     // TODO: implement build
     return Scaffold(
       floatingActionButton: FloatingActionButton(
