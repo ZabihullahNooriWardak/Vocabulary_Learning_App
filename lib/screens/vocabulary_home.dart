@@ -8,44 +8,50 @@ class VocabularyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(VocabularyController());
-    print('this is in build method : ${controller.allVocabularies[0].word}');
+    // print('this is in build method : ${controller.allVocabularies[0].word}');
     // TODO: implement build
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddVocabulary(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text("Vocabulary Learning App"),
-      ),
-      body: controller.allVocabularies.isEmpty
-          ? const Center(child: Text("no vocabulary or word"))
-          : ListView.builder(
-              itemCount: controller.allVocabularies.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(controller.allVocabularies[index].word),
-                  subtitle: Column(
-                    children: [
-                      Text(controller.allVocabularies[index].definition),
-                      Text(controller.allVocabularies[index].exampleSentence ??
-                          ""),
-                    ],
-                  ),
-                  trailing: controller.allVocabularies[index].mastered
-                      ? const Icon(Icons.check)
-                      : null,
-                );
-              },
-            ),
+    return GetBuilder<VocabularyController>(
+      init: controller,
+      builder: (controller) {
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddVocabulary(),
+                ),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+          appBar: AppBar(
+            backgroundColor: Colors.blue,
+            title: const Text("Vocabulary Learning App"),
+          ),
+          body: controller.allVocabularies.isEmpty
+              ? const Center(child: Text("no vocabulary or word"))
+              : ListView.builder(
+                  itemCount: controller.allVocabularies.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(controller.allVocabularies[index].word),
+                      subtitle: Column(
+                        children: [
+                          Text(controller.allVocabularies[index].definition),
+                          Text(controller
+                                  .allVocabularies[index].exampleSentence ??
+                              ""),
+                        ],
+                      ),
+                      trailing: controller.allVocabularies[index].mastered
+                          ? const Icon(Icons.check)
+                          : null,
+                    );
+                  },
+                ),
+        );
+      },
     );
   }
 }

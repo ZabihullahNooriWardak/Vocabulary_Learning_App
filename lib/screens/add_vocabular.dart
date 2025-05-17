@@ -57,10 +57,14 @@ class AddVocabulary extends StatelessWidget {
                     hintText: "Enter example for it"),
               ),
             ),
-            Checkbox(
-                value: controller.checkBoxValue,
-                onChanged: (v) {
-                  controller.setCheckBoxValue();
+            GetBuilder<VocabularyController>(
+                init: controller,
+                builder: (controller) {
+                  return Checkbox(
+                      value: controller.checkBoxValue,
+                      onChanged: (v) {
+                        controller.setCheckBoxValue();
+                      });
                 }),
             ElevatedButton(
                 onPressed: () async {
@@ -75,6 +79,7 @@ class AddVocabulary extends StatelessWidget {
                         mastered: db.Value(controller.checkBoxValue));
                   }
                   await controller.addVocabulary(vc);
+                  Navigator.pop(context);
                 },
                 child: const Text("Add"))
           ],

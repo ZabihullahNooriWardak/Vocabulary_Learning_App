@@ -16,6 +16,13 @@ class VocabularyController extends GetxController {
     update();
   }
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getAllVocabularies();
+  }
+
   getAllVocabularies() async {
     _allVocabularies = await _vocabularyRepository.allVocabularies();
     print("this is the length of All Vocabularies  :");
@@ -24,7 +31,7 @@ class VocabularyController extends GetxController {
   }
 
   addVocabulary(VocabularyCompanion vc) async {
-    var result =  await _vocabularyRepository.addVocabulary(vc);
+    var result = await _vocabularyRepository.addVocabulary(vc);
     print("this is the result after Saving : $result");
     getAllVocabularies();
   }
