@@ -26,25 +26,42 @@ class VocabularyHome extends StatelessWidget {
             child: const Icon(Icons.add),
           ),
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: Colors.blue,
-            title: const Text("Vocabulary Learning App"),
+            title: const Text(
+              "Vocabulary Learning App",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           body: controller.allVocabularies.isEmpty
               ? const Center(child: Text("no vocabulary or word"))
               : ListView.builder(
                   itemCount: controller.allVocabularies.length,
                   itemBuilder: (context, index) {
+                    var vocabularyData = controller.allVocabularies[index];
                     return ListTile(
-                      title: Text(controller.allVocabularies[index].word),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddVocabulary(
+                              vd: vocabularyData,
+                            ),
+                          ),
+                        );
+                      },
+                      leading: CircleAvatar(
+                        child: Text('${(index + 1)}'),
+                      ),
+                      title: Text(vocabularyData.word),
                       subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(controller.allVocabularies[index].definition),
-                          Text(controller
-                                  .allVocabularies[index].exampleSentence ??
-                              ""),
+                          Text(vocabularyData.definition),
+                          Text(vocabularyData.exampleSentence ?? ""),
                         ],
                       ),
-                      trailing: controller.allVocabularies[index].mastered
+                      trailing: vocabularyData.mastered
                           ? const Icon(Icons.check)
                           : null,
                     );
@@ -55,3 +72,4 @@ class VocabularyHome extends StatelessWidget {
     );
   }
 }
+//
