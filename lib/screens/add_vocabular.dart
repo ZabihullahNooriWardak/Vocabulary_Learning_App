@@ -13,11 +13,12 @@ class AddVocabulary extends StatefulWidget {
 }
 
 class _AddVocabularyState extends State<AddVocabulary> {
-  VocabularyController controller = Get.put(VocabularyController());
+  VocabularyController controller = Get.find<VocabularyController>();
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _wordController = TextEditingController();
   final TextEditingController _definitionController = TextEditingController();
   final TextEditingController _exampleController = TextEditingController();
+  var checkboxValue = false;
   @override
   void initState() {
     if (widget.vd != null) {
@@ -26,6 +27,7 @@ class _AddVocabularyState extends State<AddVocabulary> {
       if (widget.vd!.exampleSentence != null) {
         _exampleController.text = widget.vd!.exampleSentence!;
       }
+      checkboxValue = widget.vd!.mastered;
     }
     // TODO: implement initState
     super.initState();
@@ -50,6 +52,7 @@ class _AddVocabularyState extends State<AddVocabulary> {
                   if (value!.isEmpty) {
                     return "this can't be empty";
                   }
+                  return null;
                 },
                 controller: _wordController,
                 decoration: const InputDecoration(
@@ -92,9 +95,10 @@ class _AddVocabularyState extends State<AddVocabulary> {
                       children: [
                         const Text("Is Mastered? : "),
                         Checkbox(
-                            value: controller.checkBoxValue,
+                            value: checkboxValue,
                             onChanged: (v) {
-                              controller.setCheckBoxValue();
+                              checkboxValue = v!;
+                              setState(() {});
                             }),
                       ],
                     ),
@@ -112,7 +116,7 @@ class _AddVocabularyState extends State<AddVocabulary> {
                         exampleSentence: db.Value(_exampleController.text == ""
                             ? null
                             : _exampleController.text),
-                        mastered: db.Value(controller.checkBoxValue));
+                        mastered: db.Value(checkboxValue));
                     await controller.addVocabulary(vc);
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -129,7 +133,7 @@ class _AddVocabularyState extends State<AddVocabulary> {
                       exampleSentence: db.Value(_exampleController.text == ""
                           ? null
                           : _exampleController.text),
-                      mastered: db.Value(controller.checkBoxValue));
+                      mastered: db.Value(checkboxValue));
                   await controller.updateVocabulary(vc);
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(

@@ -9,13 +9,6 @@ class VocabularyController extends GetxController {
 
   List<VocabularyData> get allVocabularies => _allVocabularies;
 
-  bool _checkBoxState = false;
-  bool get checkBoxValue => _checkBoxState;
-  setCheckBoxValue() {
-    _checkBoxState = !_checkBoxState;
-    update();
-  }
-
   @override
   void onInit() {
     // TODO: implement onInit
