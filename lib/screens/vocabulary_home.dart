@@ -40,6 +40,31 @@ class VocabularyHome extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var vocabularyData = controller.allVocabularies[index];
                     return ListTile(
+                      onLongPress: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Are you sure to delete ? "),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      await controller
+                                          .deleteVocabulary(vocabularyData.id);
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("yes"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("No"),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       onTap: () {
                         Navigator.push(
                           context,
