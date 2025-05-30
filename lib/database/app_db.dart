@@ -10,21 +10,20 @@ part 'app_db.g.dart';
 // return driftDatabase(name: 'vocabulary_db');
 // });
 // }
-@DriftDatabase(tables: [Vocabulary])
-class AppDb extends _$AppDb{
-AppDb([QueryExecutor? executor]): super(executor ?? _openConnection());
-@override
+@DriftDatabase(tables: [Vocabulary, VCategory])
+class AppDb extends _$AppDb {
+  AppDb([QueryExecutor? executor]) : super(executor ?? _openConnection());
+  @override
   int get schemaVersion => 1;
-static QueryExecutor _openConnection() {
-  return driftDatabase(
-    name: 'my_database',
-    native: const DriftNativeOptions(
-      // By default, `driftDatabase` from `package:drift_flutter` stores the
-      // database files in `getApplicationDocumentsDirectory()`.
-      databaseDirectory: getApplicationSupportDirectory,
-    ),
-    // If you need web support, see https://drift.simonbinder.eu/platforms/web/
-  );
-}
-
+  static QueryExecutor _openConnection() {
+    return driftDatabase(
+      name: 'my_database',
+      native: const DriftNativeOptions(
+        // By default, `driftDatabase` from `package:drift_flutter` stores the
+        // database files in `getApplicationDocumentsDirectory()`.
+        databaseDirectory: getApplicationSupportDirectory,
+      ),
+      // If you need web support, see https://drift.simonbinder.eu/platforms/web/
+    );
+  }
 }

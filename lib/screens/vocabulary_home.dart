@@ -1,4 +1,5 @@
 import 'package:expense_tracker/getx_controllers/vocabulary_controller.dart';
+import 'package:expense_tracker/screens/add_category_screen.dart';
 import 'package:expense_tracker/screens/add_vocabular.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,12 +17,40 @@ class VocabularyHome extends StatelessWidget {
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddVocabulary(),
-                ),
-              );
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const AddVocabulary(),
+                                ),
+                              );
+                            },
+                            child: const Text("Add Vocabulary"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AddCategoryScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text("Add Category"),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
             },
             child: const Icon(Icons.add),
           ),

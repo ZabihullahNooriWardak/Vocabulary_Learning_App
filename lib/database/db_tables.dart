@@ -10,9 +10,15 @@ class Vocabulary extends Table {
       integer().references(VCategory, #id, onDelete: KeyAction.restrict)();
   DateTimeColumn get createdAt =>
       dateTime().nullable().clientDefault(() => DateTime.now())();
+  DateTimeColumn? get updatedAt =>
+      dateTime().nullable().withDefault(currentDateAndTime)();
 }
 
 class VCategory extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().unique()();
+  DateTimeColumn get createdAt =>
+      dateTime().nullable().clientDefault(() => DateTime.now())();
+  DateTimeColumn? get updatedAt =>
+      dateTime().nullable().withDefault(currentDateAndTime)();
 }
