@@ -26,6 +26,7 @@ class VocabularyHome extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -37,6 +38,7 @@ class VocabularyHome extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -62,65 +64,84 @@ class VocabularyHome extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
           ),
-          body: controller.allVocabularies.isEmpty
-              ? const Center(child: Text("no vocabulary or word"))
-              : ListView.builder(
-                  itemCount: controller.allVocabularies.length,
-                  itemBuilder: (context, index) {
-                    var vocabularyData = controller.allVocabularies[index];
-                    return ListTile(
-                      onLongPress: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text("Are you sure to delete ? "),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () async {
-                                      await controller
-                                          .deleteVocabulary(vocabularyData.id);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("yes"),
+          body: Column(
+            children: [
+              Container(
+                height: MediaQuery.sizeOf(context).height * 0.08,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.allCategories.length,
+                    itemBuilder: (context, index) {
+                      return Chip(
+                        label: Text(controller.allCategories[index].name),
+                      );
+                    }),
+              ),
+              controller.allVocabularies.isEmpty
+                  ? const Center(child: Text("no vocabulary or word"))
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: controller.allVocabularies.length,
+                        itemBuilder: (context, index) {
+                          var vocabularyData =
+                              controller.allVocabularies[index];
+                          return ListTile(
+                            onLongPress: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text(
+                                          "Are you sure to delete ? "),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () async {
+                                            await controller.deleteVocabulary(
+                                                vocabularyData.id);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("yes"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("No"),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddVocabulary(
+                                    vd: vocabularyData,
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("No"),
-                                  ),
-                                ],
+                                ),
                               );
-                            });
-                      },
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddVocabulary(
-                              vd: vocabularyData,
+                            },
+                            leading: CircleAvatar(
+                              child: Text('${(index + 1)}'),
                             ),
-                          ),
-                        );
-                      },
-                      leading: CircleAvatar(
-                        child: Text('${(index + 1)}'),
+                            title: Text(vocabularyData.word),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(vocabularyData.definition),
+                                Text(vocabularyData.exampleSentence ?? ""),
+                              ],
+                            ),
+                            trailing: vocabularyData.mastered
+                                ? const Icon(Icons.check)
+                                : null,
+                          );
+                        },
                       ),
-                      title: Text(vocabularyData.word),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(vocabularyData.definition),
-                          Text(vocabularyData.exampleSentence ?? ""),
-                        ],
-                      ),
-                      trailing: vocabularyData.mastered
-                          ? const Icon(Icons.check)
-                          : null,
-                    );
-                  },
-                ),
+                    ),
+            ],
+          ),
         );
       },
     );

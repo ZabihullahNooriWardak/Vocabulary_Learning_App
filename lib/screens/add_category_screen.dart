@@ -2,6 +2,10 @@ import 'package:drift/drift.dart' as db;
 import 'package:expense_tracker/database/app_db.dart';
 import 'package:expense_tracker/repository/category_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../getx_controllers/vocabulary_controller.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   const AddCategoryScreen({super.key});
@@ -13,6 +17,7 @@ class AddCategoryScreen extends StatefulWidget {
 class _AddCategoryScreenState extends State<AddCategoryScreen> {
   TextEditingController categoryController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey<FormState>();
+  final controller = Get.find<VocabularyController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +51,8 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       name: db.Value(categoryController.text),
                     );
                     await CategoryRepository().addCategory(categoryCompanion);
+                    controller.getAllCategory();
+                    Navigator.pop(context);
                   }
                 },
                 child: const Text("Add Category"))

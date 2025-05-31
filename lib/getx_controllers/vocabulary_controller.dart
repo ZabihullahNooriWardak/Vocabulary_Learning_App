@@ -1,3 +1,4 @@
+import 'package:expense_tracker/repository/category_repository.dart';
 import 'package:get/get.dart';
 
 import '../database/app_db.dart';
@@ -5,21 +6,39 @@ import '../repository/vocabulary_repository.dart';
 
 class VocabularyController extends GetxController {
   final VocabularyRepository _vocabularyRepository = VocabularyRepository();
+  final CategoryRepository _categoryRepository = CategoryRepository();
   List<VocabularyData> _allVocabularies = [];
+  int? _selectedCategoryId;
+  int? get selectedCategoryId => _selectedCategoryId;
+  selectCategoryId(int id) {
+    _selectedCategoryId = id;
+    update();
+  }
 
   List<VocabularyData> get allVocabularies => _allVocabularies;
+  List<VCategoryData> _allCategory = [];
+  List<VCategoryData> get allCategories => _allCategory;
+  getAllCategory() async {
+    _allCategory = await _categoryRepository.getAllCategory();
+    update();
+  }
+
+  getAllVocabulariesById() {
+    _allVocabularies = _allVocabularies
+        .where((vocabulary) => vocabulary.categoryId == _selectedCategoryId)
+        .toList();
+  }
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getAllVocabularies();
+    getAllCategory();
   }
 
   getAllVocabularies() async {
     _allVocabularies = await _vocabularyRepository.allVocabularies();
-    print("this is the length of All Vocabularies  :");
-    print(_allVocabularies.length);
     update();
   }
 
