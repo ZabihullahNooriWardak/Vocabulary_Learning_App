@@ -86,6 +86,24 @@ class _AddVocabularyState extends State<AddVocabulary> {
                     hintText: "Enter example for it"),
               ),
             ),
+            GetBuilder(
+              init: controller,
+              id: 'drop_down',
+              builder: (controller) {
+                return DropdownButton(
+                  value: controller.dropDownSelectedCategory,
+                  items:
+                      List.generate(controller.allCategories.length, (index) {
+                    return DropdownMenuItem(
+                        value: controller.allCategories[index],
+                        child: Text(controller.allCategories[index].name));
+                  }),
+                  onChanged: (value) {
+                    controller.setDropDownSelectedCategory(value!);
+                  },
+                );
+              },
+            ),
             GetBuilder<VocabularyController>(
                 init: controller,
                 builder: (controller) {

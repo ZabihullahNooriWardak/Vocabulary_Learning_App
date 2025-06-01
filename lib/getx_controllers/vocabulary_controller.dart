@@ -57,4 +57,11 @@ class VocabularyController extends GetxController {
     await _vocabularyRepository.deleteVocabulary(id);
     getAllVocabularies();
   }
+
+  VCategoryData? _dropDownSelectedCategory;
+  VCategoryData? get dropDownSelectedCategory => _dropDownSelectedCategory;
+  setDropDownSelectedCategory(VCategoryData vc) {
+    _dropDownSelectedCategory = vc;
+    update(['drop_down']);
+  }
 }
