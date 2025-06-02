@@ -21,4 +21,12 @@ class CategoryRepository {
       print(e);
     }
   }
+
+  getCategoryById(int id) async {
+    try {
+      return await (db.select(db.vCategory)
+            ..where((category) => category.id.equals(id)))
+          .getSingle();
+    } catch (e) {}
+  }
 }

@@ -19,6 +19,7 @@ class _AddVocabularyState extends State<AddVocabulary> {
   final TextEditingController _definitionController = TextEditingController();
   final TextEditingController _exampleController = TextEditingController();
   var checkboxValue = false;
+  late final selectedCategory;
   @override
   void initState() {
     if (widget.vd != null) {
@@ -27,10 +28,22 @@ class _AddVocabularyState extends State<AddVocabulary> {
       if (widget.vd!.exampleSentence != null) {
         _exampleController.text = widget.vd!.exampleSentence!;
       }
+
       checkboxValue = widget.vd!.mastered;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setData();
+      });
     }
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void setData() async {
+    final categoryId = widget.vd!.categoryId;
+
+    selectedCategory = await controller.getCategoryById(categoryId);
+    controller.setDropDownSelectedCategory(selectedCategory);
   }
 
   @override
@@ -129,6 +142,8 @@ class _AddVocabularyState extends State<AddVocabulary> {
                 if (widget.vd == null) {
                   if (_formKey.currentState!.validate()) {
                     vc = VocabularyCompanion(
+                        categoryId:
+                            db.Value(controller.dropDownSelectedCategory!.id),
                         word: db.Value(_wordController.text),
                         definition: db.Value(_definitionController.text),
                         exampleSentence: db.Value(_exampleController.text == ""

@@ -64,4 +64,8 @@ class VocabularyController extends GetxController {
     _dropDownSelectedCategory = vc;
     update(['drop_down']);
   }
+
+  getCategoryById(int id) async {
+    return await _categoryRepository.getCategoryById(id);
+  }
 }
