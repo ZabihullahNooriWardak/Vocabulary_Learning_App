@@ -72,8 +72,14 @@ class VocabularyHome extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.allCategories.length,
                     itemBuilder: (context, index) {
-                      return Chip(
-                        label: Text(controller.allCategories[index].name),
+                      return InkWell(
+                        onTap: () {
+                          controller.getAllVocabularyByCategory(
+                              controller.allCategories[index].id);
+                        },
+                        child: Chip(
+                          label: Text(controller.allCategories[index].name),
+                        ),
                       );
                     }),
               ),

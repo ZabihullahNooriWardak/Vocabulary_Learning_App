@@ -40,6 +40,7 @@ class VocabularyController extends GetxController {
   getAllVocabularies() async {
     _allVocabularies = await _vocabularyRepository.allVocabularies();
     update();
+    return _allVocabularies;
   }
 
   addVocabulary(VocabularyCompanion vc) async {
@@ -67,5 +68,13 @@ class VocabularyController extends GetxController {
 
   getCategoryById(int id) async {
     return await _categoryRepository.getCategoryById(id);
+  }
+
+  getAllVocabularyByCategory(int id) async {
+    _allVocabularies = await getAllVocabularies();
+    _allVocabularies = _allVocabularies.where((vocabulary) {
+      return vocabulary.categoryId == id;
+    }).toList();
+    update();
   }
 }
