@@ -129,7 +129,7 @@ class _AddVocabularyState extends State<AddVocabulary> {
                             value: checkboxValue,
                             onChanged: (v) {
                               checkboxValue = v!;
-                              setState(() {});
+                              controller.update();
                             }),
                       ],
                     ),

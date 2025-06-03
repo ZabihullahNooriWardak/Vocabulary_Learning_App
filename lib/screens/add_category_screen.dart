@@ -6,17 +6,13 @@ import 'package:get/get.dart';
 
 import '../getx_controllers/vocabulary_controller.dart';
 
-class AddCategoryScreen extends StatefulWidget {
-  const AddCategoryScreen({super.key});
+class AddCategoryScreen extends GetView<VocabularyController> {
+  AddCategoryScreen({super.key});
 
-  @override
-  State<AddCategoryScreen> createState() => _AddCategoryScreenState();
-}
+  final TextEditingController categoryController = TextEditingController();
 
-class _AddCategoryScreenState extends State<AddCategoryScreen> {
-  TextEditingController categoryController = TextEditingController();
-  GlobalKey<FormState> key = GlobalKey<FormState>();
-  final controller = Get.find<VocabularyController>();
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

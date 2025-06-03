@@ -40,8 +40,7 @@ class VocabularyHome extends GetView<VocabularyController> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AddCategoryScreen(),
+                                  builder: (context) => AddCategoryScreen(),
                                 ),
                               );
                             },
