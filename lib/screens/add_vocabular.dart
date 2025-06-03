@@ -161,6 +161,8 @@ class _AddVocabularyState extends State<AddVocabulary> {
                 } else {
                   vc = VocabularyCompanion(
                       id: db.Value(widget.vd!.id),
+                      categoryId:
+                          db.Value(controller.dropDownSelectedCategory!.id),
                       word: db.Value(_wordController.text),
                       definition: db.Value(_definitionController.text),
                       exampleSentence: db.Value(_exampleController.text == ""

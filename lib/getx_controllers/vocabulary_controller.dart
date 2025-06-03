@@ -5,29 +5,10 @@ import '../database/app_db.dart';
 import '../repository/vocabulary_repository.dart';
 
 class VocabularyController extends GetxController {
-  final VocabularyRepository _vocabularyRepository = VocabularyRepository();
-  final CategoryRepository _categoryRepository = CategoryRepository();
-  List<VocabularyData> _allVocabularies = [];
-  int? _selectedCategoryId;
-  int? get selectedCategoryId => _selectedCategoryId;
-  selectCategoryId(int id) {
-    _selectedCategoryId = id;
-    update();
-  }
-
-  List<VocabularyData> get allVocabularies => _allVocabularies;
-  List<VCategoryData> _allCategory = [];
-  List<VCategoryData> get allCategories => _allCategory;
-  getAllCategory() async {
-    _allCategory = await _categoryRepository.getAllCategory();
-    update();
-  }
-
-  getAllVocabulariesById() {
-    _allVocabularies = _allVocabularies
-        .where((vocabulary) => vocabulary.categoryId == _selectedCategoryId)
-        .toList();
-  }
+  VocabularyController(
+      {required this.vocabularyRepository, required this.categoryRepository});
+  final VocabularyRepository vocabularyRepository;
+  final CategoryRepository categoryRepository;
 
   @override
   void onInit() {
@@ -37,25 +18,29 @@ class VocabularyController extends GetxController {
     getAllCategory();
   }
 
+  List<VocabularyData> _allVocabularies = [];
+
+  List<VocabularyData> get allVocabularies => _allVocabularies;
+
   getAllVocabularies() async {
-    _allVocabularies = await _vocabularyRepository.allVocabularies();
+    _allVocabularies = await vocabularyRepository.allVocabularies();
     update();
     return _allVocabularies;
   }
 
   addVocabulary(VocabularyCompanion vc) async {
-    var result = await _vocabularyRepository.addVocabulary(vc);
+    var result = await vocabularyRepository.addVocabulary(vc);
     print("this is the result after Saving : $result");
     getAllVocabularies();
   }
 
   updateVocabulary(VocabularyCompanion vc) async {
-    await _vocabularyRepository.updateVocabulary(vc);
+    await vocabularyRepository.updateVocabulary(vc);
     getAllVocabularies();
   }
 
   deleteVocabulary(int id) async {
-    await _vocabularyRepository.deleteVocabulary(id);
+    await vocabularyRepository.deleteVocabulary(id);
     getAllVocabularies();
   }
 
@@ -67,7 +52,7 @@ class VocabularyController extends GetxController {
   }
 
   getCategoryById(int id) async {
-    return await _categoryRepository.getCategoryById(id);
+    return await categoryRepository.getCategoryById(id);
   }
 
   getAllVocabularyByCategory(int id) async {
@@ -75,6 +60,20 @@ class VocabularyController extends GetxController {
     _allVocabularies = _allVocabularies.where((vocabulary) {
       return vocabulary.categoryId == id;
     }).toList();
+    update();
+  }
+
+  int? _selectedCategoryId;
+  int? get selectedCategoryId => _selectedCategoryId;
+  selectCategoryId(int id) {
+    _selectedCategoryId = id;
+    update();
+  }
+
+  List<VCategoryData> _allCategory = [];
+  List<VCategoryData> get allCategories => _allCategory;
+  getAllCategory() async {
+    _allCategory = await categoryRepository.getAllCategory();
     update();
   }
 }

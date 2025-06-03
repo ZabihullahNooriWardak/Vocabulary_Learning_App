@@ -3,7 +3,6 @@ import 'package:expense_tracker/database/app_db.dart';
 import 'package:expense_tracker/repository/category_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../getx_controllers/vocabulary_controller.dart';
 

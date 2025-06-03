@@ -4,12 +4,10 @@ import 'package:expense_tracker/screens/add_vocabular.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VocabularyHome extends StatelessWidget {
+class VocabularyHome extends GetView<VocabularyController> {
   const VocabularyHome({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(VocabularyController());
-    // print('this is in build method : ${controller.allVocabularies[0].word}');
     // TODO: implement build
     return GetBuilder<VocabularyController>(
       init: controller,
@@ -66,21 +64,36 @@ class VocabularyHome extends StatelessWidget {
           ),
           body: Column(
             children: [
-              Container(
-                height: MediaQuery.sizeOf(context).height * 0.08,
+              SizedBox(
+                height: 50,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: controller.allCategories.length,
+                    itemCount: controller.allCategories.length + 1,
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          controller.getAllVocabularyByCategory(
-                              controller.allCategories[index].id);
-                        },
-                        child: Chip(
-                          label: Text(controller.allCategories[index].name),
-                        ),
-                      );
+                      if (index == 0) {
+                        return InkWell(
+                          onTap: () {
+                            controller.getAllVocabularies();
+                          },
+                          child: const Chip(
+                            label: Text("All"),
+                          ),
+                        );
+                      } else {
+                        return InkWell(
+                          onTap: () {
+                            controller.getAllVocabularyByCategory(
+                                controller.allCategories[index - 1].id);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Chip(
+                              label: Text(
+                                  controller.allCategories[index - 1].name),
+                            ),
+                          ),
+                        );
+                      }
                     }),
               ),
               controller.allVocabularies.isEmpty
