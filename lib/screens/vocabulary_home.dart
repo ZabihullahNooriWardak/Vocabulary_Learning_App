@@ -1,6 +1,5 @@
 import 'package:expense_tracker/getx_controllers/vocabulary_controller.dart';
 import 'package:expense_tracker/helpers/dialog_helper.dart';
-import 'package:expense_tracker/screens/add_category_screen.dart';
 import 'package:expense_tracker/screens/add_vocabular.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,7 +62,11 @@ class VocabularyHome extends GetView<VocabularyController> {
                     }),
               ),
               controller.allVocabularies.isEmpty
-                  ? const Center(child: Text("no vocabulary or word"))
+                  ? const Expanded(
+                      child: Center(
+                        child: Text("No vocabulary or word"),
+                      ),
+                    )
                   : Expanded(
                       child: ListView.builder(
                         itemCount: controller.allVocabularies.length,
@@ -72,8 +75,10 @@ class VocabularyHome extends GetView<VocabularyController> {
                               controller.allVocabularies[index];
                           return ListTile(
                             onLongPress: () {
-                              showDeleteDialog(context, onAccept: () {
-                                onDelete(context, vocabularyData.id);
+                              showDeleteDialog(context, onAccept: () async {
+                                await controller
+                                    .deleteVocabulary(vocabularyData.id);
+                                Navigator.pop(context);
                               });
                             },
                             onTap: () {
@@ -109,11 +114,6 @@ class VocabularyHome extends GetView<VocabularyController> {
         );
       },
     );
-  }
-
-  onDelete(context, dynamic id) async {
-    await controller.deleteVocabulary(id);
-    Navigator.pop(context);
   }
 }
 //
