@@ -76,4 +76,11 @@ class VocabularyController extends GetxController {
     _allCategory = await categoryRepository.getAllCategory();
     update();
   }
+
+  int _selectedCategoryIndex = 0;
+  int get selectCategoryIndex => _selectedCategoryIndex;
+  setSelectedCategoryIndex(int index) {
+    _selectedCategoryIndex = index;
+    update();
+  }
 }

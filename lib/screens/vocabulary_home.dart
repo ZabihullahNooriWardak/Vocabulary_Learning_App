@@ -35,26 +35,38 @@ class VocabularyHome extends GetView<VocabularyController> {
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.allCategories.length + 1,
                     itemBuilder: (context, index) {
+                      var color = controller.selectCategoryIndex == index
+                          ? Colors.green.shade50
+                          : null;
                       if (index == 0) {
                         return InkWell(
-                          onTap: () {
-                            controller.getAllVocabularies();
+                          onTap: () async {
+                            await controller.getAllVocabularies();
+
+                            controller.setSelectedCategoryIndex(index);
                           },
-                          child: const Chip(
-                            label: Text("All"),
+                          child: Chip(
+                            backgroundColor: color,
+                            label: Text(
+                              "All",
+                            ),
                           ),
                         );
                       } else {
                         return InkWell(
-                          onTap: () {
-                            controller.getAllVocabularyByCategory(
+                          onTap: () async {
+                            await controller.getAllVocabularyByCategory(
                                 controller.allCategories[index - 1].id);
+
+                            controller.setSelectedCategoryIndex(index);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Chip(
+                              backgroundColor: color,
                               label: Text(
-                                  controller.allCategories[index - 1].name),
+                                controller.allCategories[index - 1].name,
+                              ),
                             ),
                           ),
                         );
