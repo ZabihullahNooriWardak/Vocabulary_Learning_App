@@ -72,30 +72,9 @@ class VocabularyHome extends GetView<VocabularyController> {
                               controller.allVocabularies[index];
                           return ListTile(
                             onLongPress: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                          "Are you sure to delete ? "),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () async {
-                                            await controller.deleteVocabulary(
-                                                vocabularyData.id);
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("yes"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("No"),
-                                        ),
-                                      ],
-                                    );
-                                  });
+                              showDeleteDialog(context, onAccept: () {
+                                onDelete(context, vocabularyData.id);
+                              });
                             },
                             onTap: () {
                               Navigator.push(
@@ -130,6 +109,11 @@ class VocabularyHome extends GetView<VocabularyController> {
         );
       },
     );
+  }
+
+  onDelete(context, dynamic id) async {
+    await controller.deleteVocabulary(id);
+    Navigator.pop(context);
   }
 }
 //

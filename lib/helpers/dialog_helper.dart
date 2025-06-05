@@ -40,3 +40,28 @@ Future<void> showButtonsDialog(BuildContext context) {
         );
       });
 }
+
+Future<void> showDeleteDialog(BuildContext context,
+    {required Function onAccept}) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Are you sure to delete ? "),
+          actions: [
+            TextButton(
+              onPressed: () {
+                onAccept();
+              },
+              child: const Text("yes"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("No"),
+            ),
+          ],
+        );
+      });
+}
