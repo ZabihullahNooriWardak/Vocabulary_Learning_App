@@ -11,16 +11,16 @@ class AddCategoryScreen extends GetView<VocabularyController> {
 
   final TextEditingController categoryController = TextEditingController();
 
+  final GlobalKey<FormState> myKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> key = GlobalKey<FormState>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Category"),
       ),
       body: Form(
-        key: key,
+        key: myKey,
         child: Column(
           children: [
             Padding(
@@ -41,7 +41,7 @@ class AddCategoryScreen extends GetView<VocabularyController> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  if (key.currentState!.validate()) {
+                  if (myKey.currentState!.validate()) {
                     final categoryCompanion = VCategoryCompanion(
                       name: db.Value(categoryController.text),
                     );
