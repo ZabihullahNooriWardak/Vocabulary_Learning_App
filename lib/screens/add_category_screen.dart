@@ -11,10 +11,10 @@ class AddCategoryScreen extends GetView<VocabularyController> {
 
   final TextEditingController categoryController = TextEditingController();
 
-  final GlobalKey<FormState> key = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> key = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Category"),

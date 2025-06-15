@@ -1,5 +1,6 @@
 import 'package:expense_tracker/getx_controllers/vocabulary_controller.dart';
 import 'package:expense_tracker/helpers/dialog_helper.dart';
+import 'package:expense_tracker/screens/add_category_screen.dart';
 import 'package:expense_tracker/screens/add_vocabular.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,11 +34,13 @@ class VocabularyHome extends GetView<VocabularyController> {
                 height: 50,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: controller.allCategories.length + 1,
+                    itemCount: controller.allCategories.length + 2,
                     itemBuilder: (context, index) {
+                      var length = controller.allCategories.length;
                       var color = controller.selectCategoryIndex == index
                           ? Colors.green.shade50
                           : null;
+
                       if (index == 0) {
                         return InkWell(
                           onTap: () async {
@@ -47,9 +50,23 @@ class VocabularyHome extends GetView<VocabularyController> {
                           },
                           child: Chip(
                             backgroundColor: color,
-                            label: Text(
+                            label: const Text(
                               "All",
                             ),
+                          ),
+                        );
+                      } else if (index - 1 == length) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddCategoryScreen(),
+                              ),
+                            );
+                          },
+                          child: const Chip(
+                            label: Text('+'),
                           ),
                         );
                       } else {
