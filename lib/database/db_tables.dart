@@ -7,7 +7,7 @@ class Vocabulary extends Table {
   TextColumn get exampleSentence => text().nullable()();
   BoolColumn get mastered => boolean().withDefault(const Constant(false))();
   IntColumn get categoryId =>
-      integer().references(VCategory, #id, onDelete: KeyAction.restrict)();
+      integer().references(VCategory, #id, onDelete: KeyAction.setNull)();
   DateTimeColumn get createdAt =>
       dateTime().nullable().clientDefault(() => DateTime.now())();
   DateTimeColumn? get updatedAt =>

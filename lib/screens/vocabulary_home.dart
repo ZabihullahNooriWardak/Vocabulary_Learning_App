@@ -35,7 +35,7 @@ class VocabularyHome extends GetView<VocabularyController> {
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.allCategories.length + 2,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (ctx, index) {
                       var length = controller.allCategories.length;
                       var color = controller.selectCategoryIndex == index
                           ? Colors.green.shade50
@@ -76,6 +76,30 @@ class VocabularyHome extends GetView<VocabularyController> {
                                 controller.allCategories[index - 1].id);
 
                             controller.setSelectedCategoryIndex(index);
+                          },
+                          onLongPress: () {
+                            showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return const AlertDialog(
+                                    content: Column(
+                                      mainAxisSize:
+                                          MainAxisSize.min, // important!
+                                      children: [
+                                        ListTile(
+                                          leading: Icon(Icons
+                                              .edit), // corrected icon for 'Edit'
+                                          title: Text("Edit"),
+                                        ),
+                                        ListTile(
+                                          leading:
+                                              Icon(Icons.line_weight_sharp),
+                                          title: Text("Reorder categories"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
