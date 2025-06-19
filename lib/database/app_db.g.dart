@@ -318,7 +318,7 @@ class $VocabularyTable extends Vocabulary
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES v_category (id) ON DELETE RESTRICT'));
+          'REFERENCES v_category (id) ON DELETE SET NULL'));
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -719,6 +719,18 @@ abstract class _$AppDb extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [vCategory, vocabulary];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('v_category',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('vocabulary', kind: UpdateKind.update),
+            ],
+          ),
+        ],
+      );
 }
 
 typedef $$VCategoryTableCreateCompanionBuilder = VCategoryCompanion Function({
