@@ -29,4 +29,13 @@ class CategoryRepository {
           .getSingle();
     } catch (e) {}
   }
+
+  deleteCategory(int id) async {
+    try {
+      return await (db.delete(db.vCategory)..where((tbl) => tbl.id.equals(id)))
+          .go();
+    } catch (e) {
+      print('This Error has occurred : $e');
+    }
+  }
 }

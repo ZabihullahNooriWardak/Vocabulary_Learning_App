@@ -100,9 +100,10 @@ class VocabularyHome extends GetView<VocabularyController> {
                                 ),
                                 items: [
                                   PopupMenuItem(
-                                    child: const Text("Edit"),
+                                    child: const Text("Delete"),
                                     onTap: () {
-                                      // Call your edit function here
+                                      controller.deleteCategory(controller
+                                          .allCategories[index - 1].id);
                                     },
                                   ),
                                   PopupMenuItem(
