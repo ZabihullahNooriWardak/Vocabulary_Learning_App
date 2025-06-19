@@ -70,47 +70,61 @@ class VocabularyHome extends GetView<VocabularyController> {
                           ),
                         );
                       } else {
-                        return InkWell(
-                          onTap: () async {
-                            await controller.getAllVocabularyByCategory(
-                                controller.allCategories[index - 1].id);
+                        return Builder(builder: (context) {
+                          return InkWell(
+                            onTap: () async {
+                              await controller.getAllVocabularyByCategory(
+                                  controller.allCategories[index - 1].id);
 
-                            controller.setSelectedCategoryIndex(index);
-                          },
-                          onLongPress: () {
-                            showDialog(
+                              controller.setSelectedCategoryIndex(index);
+                            },
+                            onLongPress: () async {
+                              final RenderBox overlay = Overlay.of(context)
+                                  .context
+                                  .findRenderObject() as RenderBox;
+                              final RenderBox box =
+                                  context.findRenderObject() as RenderBox;
+                              final Offset position = box.localToGlobal(
+                                  Offset.zero,
+                                  ancestor: overlay);
+
+                              await showMenu(
                                 context: context,
-                                builder: (ctx) {
-                                  return const AlertDialog(
-                                    content: Column(
-                                      mainAxisSize:
-                                          MainAxisSize.min, // important!
-                                      children: [
-                                        ListTile(
-                                          leading: Icon(Icons
-                                              .edit), // corrected icon for 'Edit'
-                                          title: Text("Edit"),
-                                        ),
-                                        ListTile(
-                                          leading:
-                                              Icon(Icons.line_weight_sharp),
-                                          title: Text("Reorder categories"),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Chip(
-                              backgroundColor: color,
-                              label: Text(
-                                controller.allCategories[index - 1].name,
+                                position: RelativeRect.fromLTRB(
+                                  position.dx,
+                                  position.dy + box.size.height,
+                                  overlay.size.width -
+                                      position.dx -
+                                      box.size.width,
+                                  overlay.size.height - position.dy,
+                                ),
+                                items: [
+                                  PopupMenuItem(
+                                    child: const Text("Edit"),
+                                    onTap: () {
+                                      // Call your edit function here
+                                    },
+                                  ),
+                                  PopupMenuItem(
+                                    child: const Text("Reorder Categories"),
+                                    onTap: () {
+                                      // Call your reorder function here
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Chip(
+                                backgroundColor: color,
+                                label: Text(
+                                  controller.allCategories[index - 1].name,
+                                ),
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        });
                       }
                     }),
               ),
