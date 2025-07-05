@@ -1,4 +1,4 @@
-# expense_tracker
+# Vocabulary learning app
 
 A new Flutter project.
 
